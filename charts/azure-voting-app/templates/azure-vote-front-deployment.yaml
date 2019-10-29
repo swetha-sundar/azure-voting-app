@@ -3,48 +3,33 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
-  labels:
-{{ include "labels.standard" . | indent 4 }}
-    component: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
 spec:
   replicas: {{ .Values.azureVoteFront.deployment.replicas }}
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5 
+  selector:
+    matchLabels:
+      app: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
   template:
     metadata:
       labels:
 {{ include "labels.standard" . | indent 8 }}
-        component: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
     spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
       containers:
-      - name: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
-        image: "{{ .Values.azureVoteFront.deployment.image }}:{{ .Values.azureVoteFront.deployment.imageTag }}"
-        imagePullPolicy: {{ .Values.azureVoteFront.deployment.imagePullPolicy }}
-        ports:
-        - containerPort: {{ .Values.azureVoteFront.deployment.internalPort }}
-        env:
-        - name: MYSQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: {{ $serviceName }}-azure-vote
-              key: MYSQL_USER
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ $serviceName }}-azure-vote
-              key: MYSQL_PASSWORD
-        - name: MYSQL_DATABASE
-          valueFrom:
-            secretKeyRef:
-              name: {{ $serviceName }}-azure-vote
-              key: MYSQL_DATABASE
-        - name: MYSQL_HOST
-          valueFrom:
-            secretKeyRef:
-              name: {{ $serviceName }}-azure-vote
-              key: MYSQL_HOST
-        resources:
-{{ toYaml .Values.azureVoteFront.deployment.resources | indent 10 }}
+        - name: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
+          image: "{{ .Values.azureVoteFront.deployment.image }}:{{ .Values.azureVoteFront.deployment.imageTag }}"
+          imagePullPolicy: {{ .Values.azureVoteFront.deployment.imagePullPolicy }}
+          ports:
+          - containerPort: {{ .Values.azureVoteFront.deployment.internalPort }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          ports:
+            - containerPort: 80
+          env:
+            - name: REDIS
+              value: "azure-vote-back"
