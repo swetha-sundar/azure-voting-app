@@ -1,0 +1,5 @@
+subcomponents:
+  azure-vote:
+    config:
+      image:
+        tag: "7075"
