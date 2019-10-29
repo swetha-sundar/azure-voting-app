@@ -4,5 +4,3 @@ subcomponents:
       azureVoteFront:
         deployment:
           imageTag: "7077"
-      image:
-        tag: "7075"
