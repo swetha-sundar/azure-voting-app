@@ -17,7 +17,7 @@ azureVoteFront:
   deployment:
     replicas: 1
     name: front
-    image: microsoft/azure-vote-front
+    image: hellorings/votingapp
     imageTag: v1
     imagePullPolicy: Always
     internalPort: 80
