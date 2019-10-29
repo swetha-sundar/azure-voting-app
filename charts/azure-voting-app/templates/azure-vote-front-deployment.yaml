@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       labels:
-{{ include "labels.standard" . | indent 8 }}
+        app: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
