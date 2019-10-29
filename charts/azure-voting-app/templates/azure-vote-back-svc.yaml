@@ -4,7 +4,6 @@ kind: Service
 metadata:
   name: {{ $serviceName }}-{{ .Values.azureVoteBack.service.name }}
 spec:
-  type: {{ .Values.azureVoteBack.service.type }}
   ports:
     - port: {{ .Values.azureVoteBack.service.externalPort }}
   selector:

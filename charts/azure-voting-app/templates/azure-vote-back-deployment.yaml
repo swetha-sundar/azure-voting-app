@@ -5,6 +5,9 @@ metadata:
   name: {{ $serviceName }}-{{ .Values.azureVoteBack.deployment.name }}
 spec:
   replicas: {{ .Values.azureVoteBack.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ $serviceName }}-{{ .Values.azureVoteBack.deployment.name }}
   template:
     metadata:
       labels:
@@ -13,7 +16,7 @@ spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
       containers:
-        - name: azure-vote-back
+        - name: {{ $serviceName }}-{{ .Values.azureVoteBack.deployment.name }}
           image: redis
           resources:
             requests:
