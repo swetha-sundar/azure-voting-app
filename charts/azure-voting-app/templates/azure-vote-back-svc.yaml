@@ -7,4 +7,4 @@ spec:
   ports:
     - port: {{ .Values.azureVoteBack.service.externalPort }}
   selector:
-    app: {{ include "name" . }}
+    app: {{ $serviceName }}-{{ .Values.azureVoteBack.service.name }}
