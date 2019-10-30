@@ -9,8 +9,10 @@ resources:
   - repo: self
 
 variables:
+- group: Container Journey
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+- name: vmImageName
+  value: 'ubuntu-latest'
 
 stages:
   - stage: Build
