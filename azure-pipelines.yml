@@ -50,3 +50,14 @@ stages:
               COMMIT_MESSAGE: $(Build.SourceVersionMessage)
               REPO: $(MANIFEST_REPO)
               BRANCH_NAME: $(Build.SourceBranchName)
+
+          - bash: |
+              cd "$HOME"/azure-voting-app
+              commitId=$(Build.SourceVersion)
+              commitId=$(echo "${commitId:0:7}")
+              latest_commit=$(git rev-parse --short HEAD)
+              VERSION_TO_DOWNLOAD=$(curl -s "https://api.github.com/repos/CatalystCode/spk/releases/latest" | grep "tag_name" | sed -E 's/.*"([^"]+)".*/\1/')
+              echo "Downloading SPK version $VERSION_TO_DOWNLOAD" && wget "https://github.com/CatalystCode/spk/releases/download/$VERSION_TO_DOWNLOAD/spk-linux"
+              chmod +x ./spk-linux
+              ./spk-linux deployment create -n $(ACCOUNT_NAME) -k $(ACCOUNT_KEY) -t $(TABLE_NAME) -p $(PARTITION_KEY) --p3 $(Build.BuildId) --hld-commit-id $commitId --manifest-commit-id $latest_commit
+            displayName: Update manifest pipeline details in Spektate db
