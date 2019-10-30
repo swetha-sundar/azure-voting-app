@@ -18,7 +18,6 @@ spec:
       containers:
         - name: {{ $serviceName }}-{{ .Values.azureVoteFront.deployment.name }}
           image: {{ .Values.azureVoteFront.deployment.image }}:{{ .Values.azureVoteFront.deployment.imageTag }}
-          imagePullPolicy: {{ .Values.azureVoteFront.deployment.imagePullPolicy }}
           resources:
             requests:
               cpu: 100m

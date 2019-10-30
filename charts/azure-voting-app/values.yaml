@@ -33,7 +33,7 @@ azureVoteBack:
   service:
     name: back
     type: ClusterIP
-    externalPort: 3306
+    externalPort: 6379
 
   deployment:
     replicas: 1
@@ -41,7 +41,7 @@ azureVoteBack:
     image: microsoft/azure-vote-back
     imageTag: v1
     imagePullPolicy: IfNotPresent
-    internalPort: 3306
+    internalPort: 6379
     resources: {}
     #  limits:
     #    cpu: 100m
