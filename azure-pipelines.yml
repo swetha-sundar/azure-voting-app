@@ -9,7 +9,7 @@ resources:
   - repo: self
 
 variables:
-- group: Container Journey
+#- group: Container Journey
   # Agent VM image name
 - name: vmImageName
   value: 'ubuntu-latest'
